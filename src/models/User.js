@@ -14,6 +14,7 @@ const userSchema = schema(
     password: { type: String, minLength: 6 },
     avatar: { type: String },
     level: { type: Number },
+    bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: "Party" }],
   },
   {
     versionKey: false,

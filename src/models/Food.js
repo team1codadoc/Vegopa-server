@@ -8,6 +8,7 @@ const foodSchema = new mongoose.Schema(
   {
     timestamps: true,
     collection: "Food",
+    versionKey: false,
   }
 );
 

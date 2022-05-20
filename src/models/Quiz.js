@@ -13,6 +13,7 @@ const quizSchema = new mongoose.Schema(
   {
     timestamps: true,
     collection: "Quiz",
+    versionKey: false,
   }
 );
 
