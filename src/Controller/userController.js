@@ -56,9 +56,7 @@ export const signup = async (req, res, next) => {
 };
 
 export const emailValid = async (req, res, next) => {
-  const {
-    user: { email },
-  } = req.body;
+  const { email } = req.body;
 
   try {
     const existEmail = await User.findOne({ email });
@@ -78,9 +76,7 @@ export const emailValid = async (req, res, next) => {
 };
 
 export const accountValid = async (req, res, next) => {
-  const {
-    user: { username },
-  } = req.body;
+  const { username } = req.body;
 
   try {
     const existAccount = await Profile.findOne({ username });
