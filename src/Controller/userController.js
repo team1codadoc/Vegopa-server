@@ -8,6 +8,7 @@ const secret = process.env.SECRET_KEY;
 
 export const signup = async (req, res, next) => {
   const { email, password, username, avatar, level } = req.body;
+  console.log(username, "username");
 
   const accountReg = /^[_A-Za-z0-9+]*$/;
   const emailReg =
@@ -32,14 +33,8 @@ export const signup = async (req, res, next) => {
   }
 
   try {
-    const existAccount = await User.exists({ username });
     const existEmail = await User.exists({ email });
-
-    if (existAccount) {
-      return res
-        .status(STATUS_CODES.BAD_REQUEST)
-        .json({ message: ERROR_MESSAGE.SIGN_UP.INVALID_ACCOUNT });
-    }
+    const existAccount = await User.exists({ username });
 
     if (existEmail) {
       return res
@@ -47,9 +42,17 @@ export const signup = async (req, res, next) => {
         .json({ message: ERROR_MESSAGE.SIGN_UP.INVALID_EMAIL });
     }
 
+    if (existAccount) {
+      console.log("계정있는 경우다!!");
+      return res
+        .status(STATUS_CODES.BAD_REQUEST)
+        .json({ message: ERROR_MESSAGE.SIGN_UP.INVALID_ACCOUNT });
+    }
+
     const user = await User.create({
       email,
       password,
+      username,
       avatar,
       level: level ? level : 1,
     });
@@ -167,7 +170,7 @@ export const getUserInfo = async (req, res, next) => {
     const decoded = jwt.verify(accessToken, secretKey);
     const { idx } = decoded;
 
-    const user = await User.findById(idx);
+    const user = await User.findById(idx).populate("bookmark");
 
     if (!user) {
       return res.status(404).json({ message: "can not find User" });

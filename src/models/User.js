@@ -12,6 +12,7 @@ const userSchema = schema(
       trim: true,
     },
     password: { type: String, minLength: 6 },
+    username: { type: String, require: true },
     avatar: { type: String },
     level: { type: Number },
     bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: "Party" }],
