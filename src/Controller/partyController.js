@@ -13,9 +13,9 @@ export const saveParty = async (req, res, next) => {
   try {
     const accessToken = parseToken(authorization);
     const decoded = jwt.verify(accessToken, secretKey);
-    const { idx } = decoded;
+    const { id } = decoded;
 
-    const user = await User.findById(idx);
+    const user = await User.findById(id);
 
     if (!user) {
       return res.status(404).json({ message: "can not find User" });
@@ -24,7 +24,7 @@ export const saveParty = async (req, res, next) => {
     const newParty = await Party.create({
       title,
       image,
-      creator: idx,
+      creator: id,
       total,
       taste,
       meetingDate,
