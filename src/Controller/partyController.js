@@ -7,16 +7,8 @@ const secret = process.env.SECRET_KEY;
 
 export const saveParty = async (req, res, next) => {
   const authorization = req.get("Authorization");
-  const {
-    title,
-    image,
-    creator,
-    total,
-    taste,
-    meetingDate,
-    location,
-    coordinates,
-  } = req.body;
+  const { title, image, total, taste, meetingDate, location, coordinates } =
+    req.body;
 
   try {
     const accessToken = parseToken(authorization);
@@ -28,8 +20,20 @@ export const saveParty = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ message: "can not find User" });
     }
+
+    const newParty = await Party.create({
+      title,
+      image,
+      creator: idx,
+      total,
+      taste,
+      meetingDate,
+      location,
+      coordinates,
+    });
+
+    return res.json({ result: "ok", party: newParty });
   } catch (err) {
     console.log(err, "error");
   }
-  //creator 배열 push 아이디
 };
