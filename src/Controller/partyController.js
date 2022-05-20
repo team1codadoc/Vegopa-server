@@ -12,7 +12,7 @@ export const saveParty = async (req, res, next) => {
 
   try {
     const accessToken = parseToken(authorization);
-    const decoded = jwt.verify(accessToken, secretKey);
+    const decoded = jwt.verify(accessToken, secret);
     const { id } = decoded;
 
     const user = await User.findById(id);
