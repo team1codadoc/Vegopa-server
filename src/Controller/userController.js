@@ -4,6 +4,8 @@ import createError from "http-errors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const secret = process.env.SECRET_KEY;
+
 export const signup = async (req, res, next) => {
   const { email, password, username, avatar, level } = req.body;
 
@@ -129,7 +131,7 @@ export const login = async (req, res, next) => {
 
     const valid = await bcrypt.compare(password, user.password);
     if (valid) {
-      const secret = process.env.Vegopa;
+      const secret = process.env.SECRET_KEY;
       const ISSUER = "Vegopayu";
       const payload = {
         idx: user._id,
@@ -154,5 +156,34 @@ export const login = async (req, res, next) => {
     }
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUserInfo = async (req, res, next) => {
+  const authorization = req.get("Authorization");
+
+  try {
+    const accessToken = parseToken(authorization);
+    const decoded = jwt.verify(accessToken, secretKey);
+    const { idx } = decoded;
+
+    const user = await User.findById(idx);
+
+    if (!user) {
+      return res.status(404).json({ message: "can not find User" });
+    }
+
+    return res.json({
+      user: {
+        id: user._id,
+        email: user.email,
+        username: user.username,
+        avatar: user.avatar,
+        level: user.level,
+        bookmark: user.bookmark,
+      },
+    });
+  } catch (error) {
+    console.log(error, "error");
   }
 };
