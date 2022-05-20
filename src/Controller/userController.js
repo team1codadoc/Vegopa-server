@@ -3,6 +3,7 @@ import { STATUS_CODES, ERROR_MESSAGE } from "../Constants/error";
 import createError from "http-errors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import parseToken from "../utils/token";
 
 const secret = process.env.SECRET_KEY;
 
@@ -134,15 +135,13 @@ export const login = async (req, res, next) => {
 
     const valid = await bcrypt.compare(password, user.password);
     if (valid) {
-      const secret = process.env.SECRET_KEY;
-      const ISSUER = "Vegopayu";
       const payload = {
-        idx: user._id,
+        id: user._id,
         email: user.email,
       };
 
       const token = jwt.sign(payload, secret, {
-        issuer: ISSUER,
+        expiresIn: "1d",
       });
 
       const userInfo = {
@@ -167,10 +166,10 @@ export const getUserInfo = async (req, res, next) => {
 
   try {
     const accessToken = parseToken(authorization);
-    const decoded = jwt.verify(accessToken, secretKey);
-    const { idx } = decoded;
+    const decoded = jwt.verify(accessToken, secret);
+    const { id } = decoded;
 
-    const user = await User.findById(idx).populate("bookmark");
+    const user = await User.findById(id).populate("bookmark");
 
     if (!user) {
       return res.status(404).json({ message: "can not find User" });
