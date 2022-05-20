@@ -2,7 +2,7 @@ import { STATUS_CODES, ERROR_MESSAGE } from "../Constants/error";
 import User from "../models/User";
 
 export const signup = async (req, res, next) => {
-  const { email, password, username, avatar } = req.body;
+  const { email, password, username, avatar, level } = req.body;
 
   const accountReg = /^[_A-Za-z0-9+]*$/;
   const emailReg =
