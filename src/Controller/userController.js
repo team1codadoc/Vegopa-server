@@ -98,3 +98,5 @@ export const accountValid = async (req, res, next) => {
     next(error);
   }
 };
+
+export const login = async (req, res, next) => {};

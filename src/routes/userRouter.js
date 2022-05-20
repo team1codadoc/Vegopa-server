@@ -4,8 +4,8 @@ import { signup, accountValid, emailValid } from "../Controller/userController";
 
 const userRouter = express.Router();
 
-router.post("/signup", signup);
-router.post("/emailvalid", emailValid);
-router.post("/accountValid", accountValid);
+userRouter.post("/signup", signup);
+userRouter.post("/emailvalid", emailValid);
+userRouter.post("/accountValid", accountValid);
 
 export default userRouter;
