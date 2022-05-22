@@ -44,6 +44,6 @@ export const ERROR_MESSAGE = {
   },
 
   PARTY: {
-    NOT_FOUND: "요청한 url을 확인하여주세요 유효하지 않은 partyName입니다.",
+    NOT_FOUND: "요청한 url을 확인하여주세요 유효하지 않은 partyId입니다.",
   },
 };

@@ -46,15 +46,15 @@ export const getParties = async (req, res, next) => {
 };
 
 export const getParty = async (req, res, next) => {
-  const { partyName } = req.params;
+  const { partyId } = req.params;
 
-  if (!partyName) {
+  if (!partyId) {
     return res
       .status(STATUS_CODES.BAD_REQUEST)
       .json({ message: ERROR_MESSAGE.PARTY.NOT_FOUND });
   }
 
-  const party = await Party.find({ title: partyName });
+  const party = await Party.findById(partyId);
 
   return res.json({ result: "ok", party });
 };
