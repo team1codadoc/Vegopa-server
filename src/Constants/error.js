@@ -42,4 +42,8 @@ export const ERROR_MESSAGE = {
     NOT_FOUND: "존재하지 않는 게시글입니다.",
     BAD_REQUEST: "잘못된 요청입니다. 로그인 정보를 확인하세요.",
   },
+
+  PARTY: {
+    NOT_FOUND: "요청한 url을 확인하여주세요 유효하지 않은 partyName입니다.",
+  },
 };

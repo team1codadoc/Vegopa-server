@@ -2,6 +2,7 @@ import Party from "../models/Party";
 import User from "../models/User";
 import parseToken from "../utils/token";
 import jwt from "jsonwebtoken";
+import { STATUS_CODES, ERROR_MESSAGE } from "../Constants/error";
 
 const secret = process.env.SECRET_KEY;
 
@@ -36,4 +37,24 @@ export const saveParty = async (req, res, next) => {
   } catch (err) {
     console.log(err, "error");
   }
+};
+
+export const getParties = async (req, res, next) => {
+  const allParties = await Party.find().lean();
+
+  return res.json({ party: allParties });
+};
+
+export const getParty = async (req, res, next) => {
+  const { partyName } = req.params;
+
+  if (!partyName) {
+    return res
+      .status(STATUS_CODES.BAD_REQUEST)
+      .json({ message: ERROR_MESSAGE.PARTY.NOT_FOUND });
+  }
+
+  const party = await Party.find({ title: partyName });
+
+  return res.json({ result: "ok", party });
 };
