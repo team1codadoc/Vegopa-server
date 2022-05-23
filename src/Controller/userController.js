@@ -88,14 +88,15 @@ export const accountValid = async (req, res, next) => {
   const { username } = req.body;
 
   try {
-    const existAccount = await Profile.findOne({ username });
+    const existAccount = await User.findOne({ username });
+    console.log(existAccount, "check exist?");
 
     if (existAccount) {
       return res.status(STATUS_CODES.BAD_REQUEST).json({
         message: ERROR_MESSAGE.ACCOUNT_VALID.EXIST_ACCOUNT,
       });
     } else {
-      res.json({
+      return res.json({
         message: "사용 가능한 닉네임 입니다.",
       });
     }
